@@ -11,8 +11,16 @@ router.get('/get', (req, res, next) => {
 
 // insere todos os veiculos
 router.post('/post', (req, res, next) => {
+    const veiculo = {
+        id: req.body.id,
+        marca: req.body.marca,
+        modelo: req.body.modelo,
+        ano: req.body.ano,   
+    }
+
     res.status(200).send({
-        mensagem: 'Veiculo inserido'
+        mensagem: 'Veiculo inserido',
+        veiculoCriado: veiculo
     });
 });
 
