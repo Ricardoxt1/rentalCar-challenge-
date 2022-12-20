@@ -5,14 +5,14 @@ const router = express.Router();
 // retorna todos os usuarios
 router.get('/getuser', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Usando GET dentro da rota de usuario'
+        mensagem: 'Retorno de usuario'
     });
 });
 
 // insere todos os usuarios
 router.post('/postuser', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Usando POST dentro da rota de usuario'
+        mensagem: 'Usuario inserido'
     });
 });
 
@@ -36,14 +36,14 @@ router.get('/:id_usuario', (req, res, next) => { // essa rota acessa um usuario 
 // alterar um usuario e seus dados
 router.put('/putuser', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Usando PUT dentro da rota de usuario'
+        mensagem: 'Alteração de usuario'
     });
 });
 
 // deletar um usuario
 router.delete('/deluser', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Usando DELETE dentro da rota de usuario'
+        mensagem: 'Usuario deletado'
     });
 });
 

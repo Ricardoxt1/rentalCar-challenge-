@@ -5,14 +5,14 @@ const router = express.Router();
 // retorna todos os veiculos
 router.get('/get', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Usando GET dentro da rota de veiculos'
+        mensagem: 'Retornando veiculos'
     });
 });
 
 // insere todos os veiculos
 router.post('/post', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Usando POST dentro da rota de veiculos'
+        mensagem: 'Veiculo inserido'
     });
 });
 
@@ -36,14 +36,14 @@ router.get('/:id_veiculo', (req, res, next) => { // essa rota acessa veiculo exc
 // alterar um veiculo e seus dados
 router.put('/put', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Usando PUT dentro da rota de veiculo'
+        mensagem: 'Alteração de veiculo'
     });
 });
 
 // deletar um veiculo
 router.delete('/del', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Usando DELETE dentro da rota de veiculo'
+        mensagem: 'Veiculo deletado'
     });
 });
 
