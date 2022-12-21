@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 
-
-router.get('/getuser', (req, res, next) => {
+router.get('/get', (req, res, next) => {
     res.status(200).send({
         mensagem: 'Retorno de usuario'
     });
@@ -24,11 +23,10 @@ router.post('/postuser', (req, res, next) => {
     });
 });
 
-
 router.get('/:id_usuario', (req, res, next) => { // essa rota acessa um usuario exclusivo e seus detalhes
     const id = req.params.id_usuario; //chama o id do usuario
         
-    if (id === 'especial') {
+    if (id === 'id_usuario') {
         res.status(200).send({
             mensagem: 'Você encontrou o ID especial',
             id: id
@@ -39,7 +37,6 @@ router.get('/:id_usuario', (req, res, next) => { // essa rota acessa um usuario 
         });
     }
 });
-
 
 router.put('/putuser', (req, res, next) => {
     res.status(200).send({

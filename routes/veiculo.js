@@ -29,7 +29,7 @@ router.get('/:id_veiculo', (req, res, next) => { // essa rota acessa veiculo exc
     const id = req.params.id_veiculo; //chama o id do veiculo
     
     
-    if (id === 'especial') {
+    if (id === 'id_veiculo') {
         res.status(200).send({
             mensagem: 'Você encontrou o ID especial',
             id: id

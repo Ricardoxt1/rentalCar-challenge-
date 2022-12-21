@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/gethr', (req, res, next) => {
+router.get('/get', (req, res, next) => {
     res.status(200).send({
         mensagem: 'Retorno de horario'
     });
@@ -11,7 +11,7 @@ router.get('/gethr', (req, res, next) => {
 router.post('/posthr', (req, res, next) => {
     const horario = {
         horarioinicial: req.body.horarioinicial,
-        horariotermino: req.body.horariotermino,
+        horariotermino: req.body.horariotermino
     }
     res.status(200).send({
         mensagem: 'Horario inserido',
@@ -19,6 +19,20 @@ router.post('/posthr', (req, res, next) => {
     });
 });
 
+router.get('/:id_locadora', (req, res, next) => { // essa rota acessa um usuario exclusivo e seus detalhes
+    const id = req.params.id_locadora; //chama o id do usuario
+        
+    if (id === 'id_locadora') {
+        res.status(200).send({
+            mensagem: 'Você encontrou o ID especial',
+            id: id
+        });
+    } else {
+        res.status(200).send({
+            mensagem: 'Você passou um ID'
+        });
+    }
+});
 
 router.put('/puthr', (req, res, next) => {
     res.status(200).send({
@@ -68,41 +82,5 @@ router.delete('/deldt', (req, res, next) => {
         mensagem: 'Data deletada'
     });
 });
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-router.get('/getpr', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Visualizando preços'
-    });
-});
-
-router.post('/postpr', (req, res, next) => {
-    const preco = {
-        preco: req.body.preco,
-       
-    }
-
-    res.status(200).send({
-        mensagem: 'Preço inserido',
-        precoCriado: preco
-    });
-});
-
-router.put('/putpr', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Preço alterado'
-    });
-});
-
-router.delete('/delpr', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Preço deletado'
-    });
-});
-
-
-
-
 
 module.exports = router; 
