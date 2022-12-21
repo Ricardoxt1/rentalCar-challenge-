@@ -9,9 +9,9 @@ router.get('/gethr', (req, res, next) => {
 
 
 router.post('/posthr', (req, res, next) => {
-    const locacao = {
+    const horario = {
         horarioinicial: req.body.horarioinicial,
-        horariotermino: req.body.horariotermino
+        horariotermino: req.body.horariotermino,
     }
     res.status(200).send({
         mensagem: 'Horario inserido',

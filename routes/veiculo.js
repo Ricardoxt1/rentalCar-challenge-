@@ -2,14 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 
-// retorna todos os veiculos
+
 router.get('/get', (req, res, next) => {
     res.status(200).send({
         mensagem: 'Retornando veiculos'
     });
 });
 
-// insere todos os veiculos
+
 router.post('/post', (req, res, next) => {
     const veiculo = {
         id: req.body.id,
@@ -41,14 +41,14 @@ router.get('/:id_veiculo', (req, res, next) => { // essa rota acessa veiculo exc
     }
 });
 
-// alterar um veiculo e seus dados
+
 router.put('/put', (req, res, next) => {
     res.status(200).send({
         mensagem: 'Alteração de veiculo'
     });
 });
 
-// deletar um veiculo
+
 router.delete('/del', (req, res, next) => {
     res.status(200).send({
         mensagem: 'Veiculo deletado'
