@@ -24,9 +24,8 @@ router.post('/post', (req, res, next) => {
     });
 });
 
-// retorna um veiculo e seus dados
-router.get('/:id_veiculo', (req, res, next) => { // essa rota acessa veiculo exclusivo e seus detalhes
-    const id = req.params.id_veiculo; //chama o id do veiculo
+router.get('/:id_veiculo', (req, res, next) => { 
+    const id = req.params.id_veiculo; 
     
     
     if (id === 'id_veiculo') {

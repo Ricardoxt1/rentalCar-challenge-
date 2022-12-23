@@ -23,8 +23,8 @@ router.post('/post', (req, res, next) => {
     });
 });
 
-router.get('/:id_usuario', (req, res, next) => { // essa rota acessa um usuario exclusivo e seus detalhes
-    const id = req.params.id_usuario; //chama o id do usuario
+router.get('/:id_usuario', (req, res, next) => { 
+    const id = req.params.id_usuario; 
         
     if (id === 'id_usuario') {
         res.status(200).send({
