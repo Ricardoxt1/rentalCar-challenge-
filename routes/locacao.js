@@ -10,6 +10,7 @@ router.get('/get', (req, res, next) => {
 
 router.post('/post', (req, res, next) => {
     const locacao = {
+        id:req.body.id,
         veiculo_id: req.body.veiculo_id,
         usuario_id: req.body.usuario_id,
         datainicial: req.body.datainicial,
