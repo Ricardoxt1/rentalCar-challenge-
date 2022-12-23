@@ -9,7 +9,7 @@ router.get('/get', (req, res, next) => {
 });
 
 
-router.post('/postuser', (req, res, next) => {
+router.post('/post', (req, res, next) => {
     const usuario = {
        id: req.body.id, 
        nome: req.body.nome,
@@ -38,14 +38,14 @@ router.get('/:id_usuario', (req, res, next) => { // essa rota acessa um usuario 
     }
 });
 
-router.put('/putuser', (req, res, next) => {
+router.put('/put', (req, res, next) => {
     res.status(200).send({
         mensagem: 'Alteração de usuario'
     });
 });
 
 
-router.delete('/deluser', (req, res, next) => {
+router.delete('/del', (req, res, next) => {
     res.status(200).send({
         mensagem: 'Usuario deletado'
     });

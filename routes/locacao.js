@@ -3,20 +3,25 @@ const router = express.Router();
 
 router.get('/get', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Retorno de horario'
+        mensagem: 'Retorno das locações'
     });
 });
 
 
-router.post('/posthr', (req, res, next) => {
-    const horario = {
+router.post('/post', (req, res, next) => {
+    const locacao = {
+        veiculo_id: req.body.veiculo_id,
+        usuario_id: req.body.usuario_id,
+        datainicial: req.body.datainicial,
+        datatermino: req.body.datatermino,
         horarioinicial: req.body.horarioinicial,
-        horariotermino: req.body.horariotermino
+        horariotermino: req.body.horariotermino,
     }
     res.status(200).send({
-        mensagem: 'Horario inserido',
-        horarioCriado: horario
-    });
+        mensagem: 'Locação criada',
+        locacaoCriada: locacao
+        
+    })
 });
 
 router.get('/:id_locadora', (req, res, next) => { // essa rota acessa um usuario exclusivo e seus detalhes
@@ -24,7 +29,7 @@ router.get('/:id_locadora', (req, res, next) => { // essa rota acessa um usuario
         
     if (id === 'id_locadora') {
         res.status(200).send({
-            mensagem: 'Você encontrou o ID especial',
+            mensagem: 'Você encontrou o ID especial de uma locação',
             id: id
         });
     } else {
@@ -34,52 +39,16 @@ router.get('/:id_locadora', (req, res, next) => { // essa rota acessa um usuario
     }
 });
 
-router.put('/puthr', (req, res, next) => {
+router.put('/put', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Horario alterado'
+        mensagem: 'Locação alterada'
     });
 });
 
 
-router.delete('/delhr', (req, res, next) => {
+router.delete('/del', (req, res, next) => {
     res.status(200).send({
-        mensagem: 'Horario deletado'
-    });
-});
-
-//////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-router.get('/getdt', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Retorno de datas'
-    });
-});
-
-
-router.post('/postdt', (req, res, next) => {
-    const data = {
-        datainicial: req.body.datainicial,
-        datatermino: req.body.datatermino
-    }
-
-    res.status(200).send({
-        mensagem: 'Data inserida',
-        dataCriada: data
-    });
-});
-
-
-router.put('/putdt', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Data alterada'
-    });
-});
-
-
-router.delete('/deldt', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Data deletada'
+        mensagem: 'Locação deletada'
     });
 });
 
