@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mysql = require('../mysql').pool;
 
 
 router.get('/get', (req, res, next) => {
@@ -10,17 +11,27 @@ router.get('/get', (req, res, next) => {
 
 
 router.post('/post', (req, res, next) => {
-    const usuario = {
-       id_usuario: req.body.id_usuario, 
-       nome: req.body.nome,
-       email: req.body.email,
-       senha: req.body.senha,
-       
-    }
-    res.status(200).send({
-        mensagem: 'Usuario inserido',
-        usuarioCriado: usuario
-    });
+ 
+    msyql.getConnection((erro, conn) => {
+        conn.query(
+            'INSERT INTO usuario (nome, email, senha) VALUES (?, ?)',
+            [req.body.nome, req.body.email],
+            (error, resultado, field) => {
+                conn.release();
+                if (error) {
+                    return res.status(500).send({
+                        error: error,
+                        responde: null
+                    });
+
+                    res.status(200).send({
+                        mensagem: 'Usuario inserido com sucesso',
+                        id_usuario: resultado.insertId
+                    });
+                }
+            }
+        )   
+    })
 });
 
 router.get('/:id_usuario', (req, res, next) => { 

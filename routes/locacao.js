@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mysql = require('../mysql').pool;
 
 router.get('/get', (req, res, next) => {
     res.status(200).send({
@@ -9,15 +10,28 @@ router.get('/get', (req, res, next) => {
 
 
 router.post('/post', (req, res, next) => {
-    const locacao = {
-        id_locacao:req.body.id_locacao,
-        datainicial: req.body.datainicial,
-        datatermino: req.body.datatermino,
-        horarioinicial: req.body.horarioinicial,
-        horariotermino: req.body.horariotermino,
-        usuario_id_usuario: req.body.usuario_id_usuario,
-        veiculo_id_veiculo: req.body.veiculo_id_veiculo,
-    }
+
+    msyql.getConnection((erro, conn) => {
+        conn.query(
+            'INSERT INTO locacao (datainicial, datatermino, horarioinicial, horariotermino) VALUES (?, ?, ?, ?, ?, ?)',
+            [req.body.datainicial, req.body.datatermino, req.body.horarioinicial, req.body.horariotermino, req.body.usuario_id_usuario, req.body.veiculo_id_veiculo],
+            (error, resultado, field) => {
+                conn.release();
+                if (error) {
+                    return res.status(500).send({
+                        error: error,
+                        responde: null
+                    });
+
+                    res.status(200).send({
+                        mensagem: 'Locação realizada com sucesso',
+                        id_locadora: resultado.insertId
+                    });
+                }
+            }
+        )   
+    })
+
     res.status(200).send({
         mensagem: 'Locação criada',
         locacaoCriada: locacao
