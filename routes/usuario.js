@@ -11,7 +11,7 @@ router.get('/get', (req, res, next) => {
 
 router.post('/post', (req, res, next) => {
     const usuario = {
-       id: req.body.id, 
+       id_usuario: req.body.id_usuario, 
        nome: req.body.nome,
        email: req.body.email,
        senha: req.body.senha,

@@ -10,13 +10,13 @@ router.get('/get', (req, res, next) => {
 
 router.post('/post', (req, res, next) => {
     const locacao = {
-        id:req.body.id,
-        veiculo_id: req.body.veiculo_id,
-        usuario_id: req.body.usuario_id,
+        id_locacao:req.body.id_locacao,
         datainicial: req.body.datainicial,
         datatermino: req.body.datatermino,
         horarioinicial: req.body.horarioinicial,
         horariotermino: req.body.horariotermino,
+        usuario_id_usuario: req.body.usuario_id_usuario,
+        veiculo_id_veiculo: req.body.veiculo_id_veiculo,
     }
     res.status(200).send({
         mensagem: 'Locação criada',

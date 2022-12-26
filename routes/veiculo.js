@@ -12,7 +12,7 @@ router.get('/get', (req, res, next) => {
 
 router.post('/post', (req, res, next) => {
     const veiculo = {
-        id: req.body.id,
+        id_veiculo: req.body.id_veiculo,
         marca: req.body.marca,
         modelo: req.body.modelo,
         ano: req.body.ano,   
