@@ -6,22 +6,13 @@ const mysql = require('../mysql').pool;
 router.get('/get', (req, res, next) => {
 
     mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
         conn.query(
-            'SELECT * FROM usuario',
-            (error, resultado, field) => {
-                conn.release();
-                
-                if (error) {
-                    return res.status(500).send({
-                        error: error,
-                        responde: null
-                    });
-                }
+            'SELECT * FROM usuario;',
+            (error, resultado, fields) => {
 
-                res.status(200).send({
-                    mensagem: 'Retorno de usuario',
-                    id_usuario: resultado.insertId
-                });
+                if (error) { return res.status(500).send({ error })}
+                return  res.status(200).send({Response: resultado})
             }
         )
           
@@ -33,18 +24,14 @@ router.get('/get', (req, res, next) => {
 router.post('/post', (req, res, next) => {
  
     mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
         conn.query(
             'INSERT INTO usuario (nome, email) VALUES (?, ?)',
             [req.body.nome, req.body.email],
             (error, resultado, field) => {
                 conn.release();
                 
-                if (error) {
-                    return res.status(500).send({
-                        error: error,
-                        responde: null
-                    });
-                }
+                if (error) { return res.status(500).send({ error })}
 
                 res.status(200).send({
                     mensagem: 'Usuario inserido com sucesso',
@@ -56,30 +43,71 @@ router.post('/post', (req, res, next) => {
 });
 
 router.get('/:id_usuario', (req, res, next) => { 
-    const id = req.params.id_usuario; 
-        
-    if (id === 'id_usuario') {
-        res.status(200).send({
-            mensagem: 'Você encontrou o ID especial',
-            id: id
-        });
-    } else {
-        res.status(200).send({
-            mensagem: 'Você passou um ID'
-        });
-    }
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            'SELECT * FROM usuario WHERE id_usuario = ?;',
+            [req.params.id_usuario],
+            (error, resultado, fields) => {
+
+                if (error) { return res.status(500).send({ error })}
+                return  res.status(200).send({Response: resultado})
+            }
+        )
+          
+    });
 });
 
 router.put('/put', (req, res, next) => {
-    res.status(200).send({
+    
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            `UPDATE usuario
+                SET nome        = ?,
+                    email       = ?
+             WHERE id_usuario   = ?`,
+
+            [
+                req.body.nome,
+                req.body.email,
+                req.body.id_usuario,
+            ],
+
+            (error, resultado, field) => {
+                conn.release();
+                
+                if (error) { return res.status(500).send({ error })}
+
+                res.status(200).send({
+                    mensagem: 'Usuario alterado com sucesso',
+                });
+            }
+        )   
+    });
+    
+    res.status(201).send({
         mensagem: 'Alteração de usuario'
     });
 });
 
 
 router.delete('/del', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Usuario deletado'
+    
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            `DELETE FROM usuario WHERE id_usuario = ?`, [req.body.id_usuario],
+            (error, resultado, field) => {
+                conn.release();
+                
+                if (error) { return res.status(500).send({ error })}
+
+                res.status(200).send({
+                    mensagem: 'Usuario excluido com sucesso',
+                });
+            }
+        )   
     });
 });
 
