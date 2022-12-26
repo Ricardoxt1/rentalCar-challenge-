@@ -12,7 +12,7 @@ router.get('/get', (req, res, next) => {
 
 router.post('/post', (req, res, next) => {
     
-    msyql.getConnection((erro, conn) => {
+    mysql.getConnection((error, conn) => {
         conn.query(
             'INSERT INTO veiculo (marca, modelo, ano) VALUES (?, ?, ?)',
             [req.body.marca, req.body.modelo, req.body.ano],
@@ -23,19 +23,14 @@ router.post('/post', (req, res, next) => {
                         error: error,
                         responde: null
                     });
-
-                    res.status(200).send({
-                        mensagem: 'Veiculo inserido com sucesso',
-                        id_veiculo: resultado.insertId
-                    });
                 }
+                res.status(200).send({
+                    mensagem: 'Veiculo inserido com sucesso',
+                    id_veiculo: resultado.insertId
+                });
+                
             }
         )   
-    })
-
-    res.status(200).send({
-        mensagem: 'Veiculo inserido',
-        veiculoCriado: veiculo
     });
 });
 

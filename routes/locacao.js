@@ -11,9 +11,9 @@ router.get('/get', (req, res, next) => {
 
 router.post('/post', (req, res, next) => {
 
-    msyql.getConnection((erro, conn) => {
+    mysql.getConnection((error, conn) => {
         conn.query(
-            'INSERT INTO locacao (datainicial, datatermino, horarioinicial, horariotermino) VALUES (?, ?, ?, ?, ?, ?)',
+            'INSERT INTO locacao (datainicial, datatermino, horarioinicial, horariotermino, usuario_id_usuario, veiculo_id_veiculo) VALUES (?, ?, ?, ?, ?, ?)',
             [req.body.datainicial, req.body.datatermino, req.body.horarioinicial, req.body.horariotermino, req.body.usuario_id_usuario, req.body.veiculo_id_veiculo],
             (error, resultado, field) => {
                 conn.release();
@@ -22,21 +22,15 @@ router.post('/post', (req, res, next) => {
                         error: error,
                         responde: null
                     });
-
-                    res.status(200).send({
-                        mensagem: 'Locação realizada com sucesso',
-                        id_locadora: resultado.insertId
-                    });
                 }
+                res.status(200).send({
+                    mensagem: 'Locação realizada com sucesso',
+                    id_locadora: resultado.insertId
+                });
+                
             }
         )   
-    })
-
-    res.status(200).send({
-        mensagem: 'Locação criada',
-        locacaoCriada: locacao
-        
-    })
+    });
 });
 
 router.get('/:id_locadora', (req, res, next) => { 
