@@ -3,8 +3,17 @@ const router = express.Router();
 const mysql = require('../mysql').pool;
 
 router.get('/get', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Retorno das locações'
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            'SELECT * FROM locacao;',
+            (error, resultado, fields) => {
+
+                if (error) { return res.status(500).send({ error })}
+                return  res.status(200).send({Response: resultado})
+            }
+        )
+          
     });
 });
 
@@ -33,31 +42,73 @@ router.post('/post', (req, res, next) => {
     });
 });
 
-router.get('/:id_locadora', (req, res, next) => { 
-    const id = req.params.id_locadora; 
-        
-    if (id === 'id_locadora') {
-        res.status(200).send({
-            mensagem: 'Você encontrou o ID especial de uma locação',
-            id: id
-        });
-    } else {
-        res.status(200).send({
-            mensagem: 'Você passou um ID'
-        });
-    }
-});
+router.get('/:id_locacao', (req, res, next) => { 
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            'SELECT * FROM locacao WHERE id_locacao = ?;',
+            [req.params.id_locacao],
+            (error, resultado, fields) => {
 
-router.put('/put', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Locação alterada'
+                if (error) { return res.status(500).send({ error })}
+                return  res.status(200).send({Response: resultado})
+            }
+        )    
     });
 });
 
+router.put('/put', (req, res, next) => {
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            `UPDATE locacao
+                SET datainicial             = ?,
+                    datatermino             = ?,
+                    horarioinicial          = ?,
+                    horariotermino          = ?,
+                    usuario_id_usuario      = ?,
+                    veiculo_id_veiculo      = ?
+             WHERE id_locacao               = ?`,
+
+            [
+                req.body.datainicial,
+                req.body.datatermino,
+                req.body.horarioinicial,
+                req.body.horariotermino,
+                req.body.usuario_id_usuario,
+                req.body.veiculo_id_veiculo,
+                req.body.id_locacao,
+            ],
+
+            (error, resultado, field) => {
+                conn.release();
+                
+                if (error) { return res.status(500).send({ error })}
+
+                res.status(200).send({
+                    mensagem: 'Locação alterada com sucesso',
+                });
+            }
+        )   
+    });
+    
+});
 
 router.delete('/del', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Locação deletada'
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            `DELETE FROM locacao WHERE id_locacao = ?`, [req.body.id_locacao],
+            (error, resultado, field) => {
+                conn.release();
+                
+                if (error) { return res.status(500).send({ error })}
+
+                res.status(200).send({
+                    mensagem: 'Locaçâo excluida com sucesso',
+                });
+            }
+        )   
     });
 });
 
