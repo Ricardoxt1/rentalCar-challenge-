@@ -4,8 +4,17 @@ const mysql = require('../mysql').pool;
 
 
 router.get('/get', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Retornando veiculos'
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            'SELECT * FROM veiculo;',
+            (error, resultado, fields) => {
+
+                if (error) { return res.status(500).send({ error })}
+                return  res.status(200).send({Response: resultado})
+            }
+        )
+          
     });
 });
 
@@ -35,32 +44,66 @@ router.post('/post', (req, res, next) => {
 });
 
 router.get('/:id_veiculo', (req, res, next) => { 
-    const id = req.params.id_veiculo; 
-    
-    
-    if (id === 'id_veiculo') {
-        res.status(200).send({
-            mensagem: 'Você encontrou o ID especial',
-            id: id
-        });
-    } else {
-        res.status(200).send({
-            mensagem: 'Você passou um ID'
-        });
-    }
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            'SELECT * FROM veiculo WHERE id_veiculo = ?;',
+            [req.params.id_veiculo],
+            (error, resultado, fields) => {
+
+                if (error) { return res.status(500).send({ error })}
+                return  res.status(200).send({ Response: resultado })
+            }
+        )    
+    });
 });
 
-
 router.put('/put', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Alteração de veiculo'
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            `UPDATE veiculo
+                SET marca        = ?,
+                    modelo       = ?,
+                    ano          = ?
+             WHERE id_veiculo   = ?`,
+
+            [
+                req.body.marca,
+                req.body.modelo,
+                req.body.ano,
+                req.body.id_veiculo,
+            ],
+
+            (error, resultado, field) => {
+                conn.release();
+                
+                if (error) { return res.status(500).send({ error })}
+
+                res.status(201).send({
+                    mensagem: 'Veiculo alterado com sucesso',
+                });
+            }
+        )   
     });
 });
 
 
 router.delete('/del', (req, res, next) => {
-    res.status(200).send({
-        mensagem: 'Veiculo deletado'
+    mysql.getConnection((error, conn) => {
+        if (error) { return res.status(500).send({ error })}
+        conn.query(
+            `DELETE FROM veiculo WHERE id_veiculo = ?`, [req.body.id_veiculo],
+            (error, resultado, field) => {
+                conn.release();
+                
+                if (error) { return res.status(500).send({ error })}
+
+                res.status(200).send({
+                    mensagem: 'Veiculo excluido com sucesso',
+                });
+            }
+        )   
     });
 });
 
