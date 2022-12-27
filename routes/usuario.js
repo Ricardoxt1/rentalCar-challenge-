@@ -17,8 +17,8 @@ router.get('/get', (req, res, next) => {
                     usuarios: result.map(user => {
                         return {
                             id_usuario: user.id_usuario,
-                            nome: user.nome,
-                            email: user.email,
+                            nome:             user.nome,
+                            email:           user.email,
                             request: {
                                 tipo: 'GET',
                                 descricao: 'Retorna um usuario especifico com suas informações',
@@ -48,8 +48,8 @@ router.post('/post', (req, res, next) => {
                     mensagem: 'Usuario cadastrado com sucesso',
                     usuarioCriado: {
                         id_usuario: req.body.id_usuario,
-                        nome: req.body.nome,
-                        email: req.body.email,
+                        nome:             req.body.nome,
+                        email:           req.body.email,
                         request: {
                             tipo: 'GET',
                             descricao: 'Retorna os usuarios existentes',
@@ -71,7 +71,6 @@ router.get('/:id_usuario', (req, res, next) => {
             [req.params.id_usuario],
             (error, result, fields) => {
                 if (error) { return res.status(500).send({ error })}
-
                 if (result.length == 0) {
                     return res.status(404).send({
                         mensagem: 'Não foi possivel encontrar um usuario com este id'
@@ -81,8 +80,8 @@ router.get('/:id_usuario', (req, res, next) => {
                     mensagem: 'Usuario encontrado com sucesso',
                     usuario: {
                         id_usuario: result[0].id_usuario,
-                        nome: result[0].nome,
-                        email: result[0].email,
+                        nome:             result[0].nome,
+                        email:           result[0].email,
                         request: {
                             tipo: 'GET',
                             descricao: 'Retorna os usuarios existentes',
@@ -118,8 +117,8 @@ router.put('/put', (req, res, next) => {
                     mensagem: 'Usuario alterado com sucesso',
                     usuarioAlterado: {
                         id_usuario: req.body.id_usuario,
-                        nome: req.body.nome,
-                        email: req.body.email,
+                        nome:             req.body.nome,
+                        email:           req.body.email,
                         request: {
                             tipo: 'GET',
                             descricao: 'Retorna um usuario especifico',
@@ -137,17 +136,17 @@ router.put('/put', (req, res, next) => {
 router.delete('/del', (req, res, next) => {
     
     mysql.getConnection((error, conn) => {
-        if (error) { return res.status(500).send({ error })}
+        if (error) { return res.status(500).send({ error: error })}
         conn.query(
             `DELETE FROM usuario WHERE id_usuario = ?`,[req.body.id_usuario],
-            (error, resultado, field) => {
+            (error, result, field) => {
                 conn.release();
-                if (error) { return res.status(500).send({ error })}
+                if (error) { return res.status(500).send({ error: error })}
                 const response = {
                     mensagem: 'Usuario excluido com sucesso',
                     request: {
                         tipo: 'POST',
-                        descricao: 'Cadastro de usuario',
+                        descricao: 'Cadastrar de usuario',
                         url: 'http://localhost:3000/usuario/post',
                         body: {
                             nome: 'String',
