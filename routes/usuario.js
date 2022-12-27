@@ -85,10 +85,6 @@ router.put('/put', (req, res, next) => {
             }
         )   
     });
-    
-    res.status(201).send({
-        mensagem: 'Alteração de usuario'
-    });
 });
 
 
