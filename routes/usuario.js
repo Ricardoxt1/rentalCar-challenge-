@@ -150,7 +150,7 @@ router.delete('/del', (req, res, next) => {
                         url: 'http://localhost:3000/usuario/post',
                         body: {
                             nome: 'String',
-                            email: 'Email'
+                            email: 'String'
                         }
                     }
                 }
